@@ -14,6 +14,16 @@ namespace SimpleNeuronNetwork
         public delegate float ActivationFunction(float input);
         private ActivationFunction activationFunction;
 
+        // memory for inputs & outputs
+        public float[] inputs;
+        public float output;
+        public bool isProcessing = false; // a marker for identifying work state of neurons
+
+        /// <summary>
+        /// Create a new Neuron
+        /// </summary>
+        /// <param name="weights"></param>
+        /// <param name="bias"></param>
         public Neuron(float[] weights, float bias)
         {
             inputNumber = weights.Length;
@@ -25,6 +35,9 @@ namespace SimpleNeuronNetwork
             {
                 return 1f / (1f + Mathf.Exp(-x));
             };
+
+            // pre allocated memory for inputs and outputs
+            inputs = new float[inputNumber];
         }
 
         public void ChangeWeight(int index, float weight)
@@ -43,14 +56,15 @@ namespace SimpleNeuronNetwork
         }
 
         /// <summary>
-        /// Passing inputs forward to get an output
+        /// Passing inputData forward to get an output
+        ///  (output data will also be stored in Neuron.output)
         /// </summary>
-        /// <param name="inputs"></param>
+        /// <param name="inputData"></param>
         /// <returns></returns>
-        public float FeedForward(float[] inputs)
+        public float FeedForward(float[] inputData)
         {
             // input number have to match number of weight
-            if(inputs.Length != inputNumber)
+            if(inputData.Length != inputNumber)
             {
                 Debug.Log("input number does not match the number of weight");
                 return -1f;
@@ -61,12 +75,16 @@ namespace SimpleNeuronNetwork
             // perform dot product on every input and their weights
             for(int i = 0; i < inputNumber; i++)
             {
-                sum += weights[i] * inputs[i];
+                sum += weights[i] * inputData[i];
             }
 
             // count in bias
             sum += bias;
 
+            // use activation function
+            sum = activationFunction(sum);
+
+            output = sum;
             return sum;
         }
 
