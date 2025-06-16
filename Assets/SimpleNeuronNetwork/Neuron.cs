@@ -15,9 +15,9 @@ namespace SimpleNeuronNetwork
         private ActivationFunction activationFunction;
 
         // memory for inputs & outputs
-        public float[] inputs;
+        //public float[] inputs;
         public float output;
-        public bool isProcessing = false; // a marker for identifying work state of neurons
+        //public bool isProcessing = false; // a marker for identifying work state of neurons
 
         /// <summary>
         /// Create a new Neuron
@@ -37,7 +37,7 @@ namespace SimpleNeuronNetwork
             };
 
             // pre allocated memory for inputs and outputs
-            inputs = new float[inputNumber];
+            //inputs = new float[inputNumber];
         }
 
         public void ChangeWeight(int index, float weight)
@@ -61,7 +61,7 @@ namespace SimpleNeuronNetwork
         /// </summary>
         /// <param name="inputData"></param>
         /// <returns></returns>
-        public float FeedForward(float[] inputData)
+        public void FeedForward(float[] inputData)
         {
             // input number have to match number of weight
             if(inputData.Length != inputNumber)
@@ -85,7 +85,7 @@ namespace SimpleNeuronNetwork
             sum = activationFunction(sum);
 
             output = sum;
-            return sum;
+            return;
         }
 
 
