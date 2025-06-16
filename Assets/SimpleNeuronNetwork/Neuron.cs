@@ -31,10 +31,7 @@ namespace SimpleNeuronNetwork
             this.bias = bias;
 
             // Default activation function as sigmoid function
-            activationFunction = x =>
-            {
-                return 1f / (1f + Mathf.Exp(-x));
-            };
+            activationFunction = MathFunctions.Sigmoid;
 
             // pre allocated memory for inputs and outputs
             //inputs = new float[inputNumber];
@@ -67,7 +64,7 @@ namespace SimpleNeuronNetwork
             if(inputData.Length != inputNumber)
             {
                 Debug.Log("input number does not match the number of weight");
-                return -1f;
+                return;
             }
 
             float sum = 0;

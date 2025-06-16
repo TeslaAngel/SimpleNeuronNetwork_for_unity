@@ -14,6 +14,10 @@ namespace SimpleNeuronNetwork
         private float[] inputs;
         private Neuron[][] neurons;
 
+        // a delegate for loss function
+        public delegate float LossFunction(float[] predictions, float[] targets);
+        private LossFunction lossFunction;
+
         /// <summary>
         /// create a neural network with predefined neurons
         /// </summary>
@@ -24,6 +28,9 @@ namespace SimpleNeuronNetwork
         {
             inputs = new float[inputNumber];
             this.neurons = neurons;
+
+            // default loss function as mean squared error (MSE) loss
+            lossFunction = MathFunctions.MeanSquaredError;
         }
 
         public void SetInputs(float[] inputs)
@@ -46,6 +53,11 @@ namespace SimpleNeuronNetwork
             }
 
             neurons[layer][index] = newNeuron;
+        }
+
+        public void SetLossFunction(LossFunction newLossFunction)
+        {
+            lossFunction = newLossFunction;
         }
 
         public float[] FeedForward()
