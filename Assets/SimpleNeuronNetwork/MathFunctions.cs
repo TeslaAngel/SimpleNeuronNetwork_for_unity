@@ -22,6 +22,17 @@ namespace SimpleNeuronNetwork
         }
 
         /// <summary>
+        /// Partial derivative of the Sigmoid Function
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static float DerivSigmoid(float x)
+        {
+            float fx = Sigmoid(x);
+            return fx * (1 - fx);
+        }
+
+        /// <summary>
         /// Calculates the Mean Squared Error (MSE) between two float arrays.
         /// </summary>
         /// <param name="predictions">Predicted values.</param>
