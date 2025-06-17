@@ -37,6 +37,11 @@ namespace SimpleNeuronNetwork
             //inputs = new float[inputNumber];
         }
 
+        public int GetInputNumber()
+        {
+            return inputNumber;
+        }
+
         public void ChangeWeight(int index, float weight)
         {
             weights[index] = weight;
@@ -85,7 +90,42 @@ namespace SimpleNeuronNetwork
             return;
         }
 
+        /// <summary>
+        /// Passing inputData forward to get an output. This version of FeedForward also output intrimSums for training purposes
+        ///  (output data will also be stored in Neuron.output)
+        /// </summary>
+        /// <param name="inputData"></param>
+        /// <returns></returns>
+        public void FeedForward(float[] inputData, out float[] intrimSums)
+        {
+            // input number have to match number of weight
+            if (inputData.Length != inputNumber)
+            {
+                Debug.Log("input number does not match the number of weight");
+                intrimSums = null;
+                return;
+            }
 
+            float sum = 0;
+            intrimSums = new float[inputNumber];
+
+            // perform dot product on every input and their weights
+            for (int i = 0; i < inputNumber; i++)
+            {
+                float sumI = weights[i] * inputData[i];
+                intrimSums[i] = sumI;
+                sum += sumI;
+            }
+
+            // count in bias
+            sum += bias;
+
+            // use activation function
+            sum = activationFunction(sum);
+
+            output = sum;
+            return;
+        }
     }
     
 }
